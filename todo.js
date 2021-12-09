@@ -27,6 +27,8 @@ function Todo(name, state) {
     { action: "done", icon: "ok" },
     { action: "active", icon: "plus" },
     { action: "inactive", icon: "minus" },
+    { action: "moveUp", icon: "arrow-up" },
+    { action: "moveDown", icon: "arrow-down" },
     { action: "remove", icon: "trash" }
   ];
   function renderTodos() {
@@ -73,7 +75,30 @@ function Todo(name, state) {
                 renderTodos();
               }
             };
-          } else {
+          } else if(button.action === "moveUp"){
+            btn.title = "moveUp";
+            btn.onclick = function(){
+              if(todos.indexOf(todo)!=0){
+                swapTodos(todos[todos.indexOf(todo)],todos[todos.indexOf(todo)-1])
+
+                //update local storage
+                localStorage.setItem("todos",JSON.stringify(todos));
+                renderTodos();
+              }
+            }
+          }
+          else if(button.action === "moveDown"){
+            btn.title = "moveDown";
+            btn.onclick = function(){
+            if(todos.indexOf(todo)!=(todos.length-1)){
+              swapTodos(todos[todos.indexOf(todo)],todos[todos.indexOf(todo)+1])
+
+              //update local storage
+              localStorage.setItem("todos",JSON.stringify(todos));
+              renderTodos();
+            }
+          }
+          }else{
             btn.title = "Mark as " + button.action;
             btn.onclick = function() {
               todo.state = button.action;
@@ -142,4 +167,15 @@ function Todo(name, state) {
     }
     element.classList.add("active");
     renderTodos();
+  }
+
+  function swapTodos(todo1, todo2){
+    var previousTodo = new Todo(todo2.name,todo2.state)
+    var currentTodo = new Todo(todo1.name, todo1.state);
+
+    todo1.name = previousTodo.name
+    todo1.state = previousTodo.state
+
+    todo2.name = currentTodo.name;
+    todo2.state = currentTodo.state;
   }
