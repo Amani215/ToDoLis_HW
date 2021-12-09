@@ -115,7 +115,6 @@ function Todo(name, state) {
         var tabName = todoTabs[i].getAttribute("data-tab-name");
         switch(tabName){
           case "all":
-            console.log(todoTabs[i].getElementsByTagName("a"))
             todoTabs[i].getElementsByTagName("a")[0].getElementsByTagName("span")[0].innerHTML = todos.length;
             break;
           case "active":
