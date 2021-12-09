@@ -3,7 +3,7 @@ function Todo(name, state) {
     this.state = state;
   }
   
-  var todos = [];
+  var todos = JSON.parse(localStorage.getItem("todos"))||[];
   var states = ["active", "inactive", "done"];
   var tabs = ["all"].concat(states);
   var currentTab = "all";
@@ -14,8 +14,11 @@ function Todo(name, state) {
   form.onsubmit = function(event) {
     event.preventDefault();
     if (input.value && input.value.length) {
-      todos.push(new Todo(input.value, "active"));
+      todos.push(new Todo(input.value,"active"));
       input.value = "";
+
+      //update local storage
+      localStorage.setItem("todos",JSON.stringify(todos));
       renderTodos();
     }
   };
@@ -64,6 +67,9 @@ function Todo(name, state) {
                 )
               ) {
                 todos.splice(todos.indexOf(todo), 1);
+
+                //update local storage
+                localStorage.setItem("todos",JSON.stringify(todos));
                 renderTodos();
               }
             };
@@ -71,6 +77,9 @@ function Todo(name, state) {
             btn.title = "Mark as " + button.action;
             btn.onclick = function() {
               todo.state = button.action;
+
+              //update local storage
+              localStorage.setItem("todos",JSON.stringify(todos));
               renderTodos();
             };
           }
