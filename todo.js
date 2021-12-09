@@ -90,6 +90,46 @@ function Todo(name, state) {
   
         todoList.appendChild(div1);
       });
+
+      var activeNum=0;
+      var inactiveNum=0;
+      var doneNum=0;
+
+      todos.forEach((todo)=>{
+        switch(todo.state){
+          case "active": 
+            activeNum++;
+            break;
+          case "inactive":
+            inactiveNum++;
+            break;
+          case "done":
+            doneNum++;
+            break;
+        }
+      })
+
+      //update badges
+      var todoTabs = document.getElementsByClassName("todo-tab");
+      for(var i=0; i<todoTabs.length; i++){
+        var tabName = todoTabs[i].getAttribute("data-tab-name");
+        switch(tabName){
+          case "all":
+            console.log(todoTabs[i].getElementsByTagName("a"))
+            todoTabs[i].getElementsByTagName("a")[0].getElementsByTagName("span")[0].innerHTML = todos.length;
+            break;
+          case "active":
+            todoTabs[i].getElementsByTagName("a")[0].getElementsByTagName("span")[0].innerHTML = activeNum;
+            break;
+          case "inactive":
+            todoTabs[i].getElementsByTagName("a")[0].getElementsByTagName("span")[0].innerHTML = inactiveNum;
+            break;
+          case "done":
+            todoTabs[i].getElementsByTagName("a")[0].getElementsByTagName("span")[0].innerHTML = doneNum;
+            break;
+        }
+      }
+      
   }
   
   renderTodos();
